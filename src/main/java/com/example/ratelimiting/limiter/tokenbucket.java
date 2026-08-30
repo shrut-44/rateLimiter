@@ -7,15 +7,16 @@ import java.time.LocalDateTime;
 
 import static java.lang.Math.min;
 
-public class tokenbucket {
-    private int capacity;
+public class tokenbucket implements RateLimitingAlgorithm {
+    private final int capacity;
     private int token;
     private LocalDateTime lastRefillTime;
-    public tokenbucket(){
-        this.capacity = 10;
-        this.token = 10;
+    public tokenbucket(int capacity, int token){
+        this.capacity = capacity;
+        this.token = token;
         this.lastRefillTime = LocalDateTime.now();
     }
+    @Override
     synchronized public boolean tryConsume(){
         this.refill();
         if(token==0){

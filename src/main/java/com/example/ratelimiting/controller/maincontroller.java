@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class maincontroller {
     private final HttpServletRequest request;
-    private final RateLimiter rateLimiter;
-    public maincontroller(HttpServletRequest request, RateLimiter rateLimiter){
+    private final RateLimiter<tokenbucket> rateLimiter;
+    public maincontroller(HttpServletRequest request, RateLimiter<tokenbucket> rateLimiter){
         this.request = request;
         this.rateLimiter = rateLimiter;
     }
