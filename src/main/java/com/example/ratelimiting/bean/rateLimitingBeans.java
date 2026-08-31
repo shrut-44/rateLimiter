@@ -6,7 +6,9 @@ import com.example.ratelimiting.limiter.SlidingWindowCounter;
 import com.example.ratelimiting.limiter.tokenbucket;
 import com.example.ratelimiting.services.RateLimiter;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
+@Configuration
 public class rateLimitingBeans {
     @Bean
     public RateLimiter<tokenbucket> tokenBucketRateLimiter() {

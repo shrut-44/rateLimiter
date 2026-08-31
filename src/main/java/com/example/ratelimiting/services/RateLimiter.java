@@ -10,7 +10,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
 
-@Service
+
 public class RateLimiter<T extends RateLimitingAlgorithm> {
 
     private final Map<String, T> mp;

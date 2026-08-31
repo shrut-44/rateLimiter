@@ -1,6 +1,7 @@
 package com.example.ratelimiting.controller;
 
 import com.example.ratelimiting.limiter.tokenbucket;
+import com.example.ratelimiting.services.DistributedRateLimiter;
 import com.example.ratelimiting.services.RateLimiter;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.ResponseEntity;
@@ -11,9 +12,11 @@ import org.springframework.web.bind.annotation.RestController;
 public class maincontroller {
     private final HttpServletRequest request;
     private final RateLimiter<tokenbucket> rateLimiter;
-    public maincontroller(HttpServletRequest request, RateLimiter<tokenbucket> rateLimiter){
+    private final DistributedRateLimiter distributedRateLimiter;
+    public maincontroller(HttpServletRequest request, RateLimiter<tokenbucket> rateLimiter, DistributedRateLimiter distributedRateLimiter){
         this.request = request;
         this.rateLimiter = rateLimiter;
+        this.distributedRateLimiter = distributedRateLimiter;
     }
     @GetMapping("/unlimited")
     public String unlimited(){
@@ -21,7 +24,7 @@ public class maincontroller {
     }
     @GetMapping("/limited")
     public ResponseEntity<?> limited(){
-        return (rateLimiter.allow(request.getRemoteAddr())) ? ResponseEntity.ok().body("Limited use wisely")
+        return (distributedRateLimiter.allow(request.getRemoteAddr())) ? ResponseEntity.ok().body("Limited use wisely")
                 : ResponseEntity.status(429).body("You are being rate limited");
     }
 }
